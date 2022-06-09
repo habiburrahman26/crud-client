@@ -15,7 +15,7 @@ const AllRecord = () => {
           Add Record
         </label>
       </div>
-      <div className="overflow-x-auto px-5">
+      <div className="overflow-x-auto lg:max-w-2xl mx-auto">
         <table className="table w-full">
           <thead>
             <tr>
@@ -48,7 +48,7 @@ const AllRecord = () => {
         </table>
       </div>
 
-      {showAddRecord && <AddRecord/>}
+      {showAddRecord && <AddRecord setShowAddRecord={setShowAddRecord}/>}
     </div>
   );
 };
