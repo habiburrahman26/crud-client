@@ -21,7 +21,14 @@ const recordSlice = createSlice({
       const filterRecord = state.records.filter((record) => record._id !== id);
       state.records = filterRecord;
     },
-    updateRecord(state, action) {},
+    updateRecord(state, action) {
+      const updateItem = action.payload;
+      const existingItem = state.records.find(
+        (record) => record._id === updateItem._id
+      );
+      existingItem.taskName = updateItem.taskName;
+      existingItem.description = updateItem.description;
+    },
   },
 });
 

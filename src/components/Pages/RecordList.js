@@ -7,7 +7,7 @@ const RecordList = ({ id, sl, taskName, description, showModalHandler }) => {
       <td>{taskName}</td>
       <td>{description}</td>
       <td>
-        <Link to={`/edit/${id}`} className="btn btn-xs btn-secondary mr-3">
+        <Link to={`/record/edit/${id}`} className="btn btn-xs btn-secondary mr-3">
           Edit
         </Link>
         <label
