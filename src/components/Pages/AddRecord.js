@@ -1,12 +1,24 @@
+import axios from 'axios';
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { addRecord } from '../store';
 
 const AddRecord = ({ setShowAddRecord }) => {
+  const dispatch = useDispatch();
+
   const submitHandler = (e) => {
     e.preventDefault();
 
     const taskName = e.target.taskName.value;
     const description = e.target.description.value;
-    console.log(taskName, description);
+
+    axios
+      .post('http://localhost:5000/record', { taskName, description })
+      .then(({ data }) => {
+        if (data.insertedId) {
+          dispatch(addRecord({ _id: data.insertedId, taskName, description }));
+        }
+      });
 
     setShowAddRecord(false);
   };
@@ -18,7 +30,7 @@ const AddRecord = ({ setShowAddRecord }) => {
         <div className="modal-box">
           <label
             htmlFor="add-record"
-            class="btn btn-sm btn-circle absolute right-2 top-2"
+            className="btn btn-sm btn-circle absolute right-2 top-2"
           >
             ✕
           </label>
@@ -28,12 +40,12 @@ const AddRecord = ({ setShowAddRecord }) => {
               <input
                 type="text"
                 placeholder="Task Name"
-                class="input input-bordered w-full max-w-xs"
+                className="input input-bordered w-full max-w-xs"
                 name="taskName"
                 required
               />
               <textarea
-                class="textarea textarea-bordered w-full max-w-xs"
+                className="textarea textarea-bordered w-full max-w-xs"
                 placeholder="Description"
                 rows="3"
                 name="description"

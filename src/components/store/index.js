@@ -1,4 +1,5 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 const initialState = {
   records: [],
@@ -8,13 +9,25 @@ const recordSlice = createSlice({
   name: 'record',
   initialState,
   reducers: {
+    getAllRecord(state, action) {
+      state.records = action.payload;
+    },
     addRecord(state, action) {
-      state.records = state.records.push(action.payload);
+      console.log(action.payload);
+      state.records = [...state.records,action.payload];
     },
     deleteRecord(state, action) {},
     updateRecord(state, action) {},
   },
 });
+
+export const fetchRecord = () => {
+  return (dispatch) => {
+    axios.get('http://localhost:5000/record').then(({ data }) => {
+      dispatch(recordSlice.actions.getAllRecord(data));
+    });
+  };
+};
 
 const store = configureStore({
   reducer: {
@@ -22,6 +35,6 @@ const store = configureStore({
   },
 });
 
-export const {addRecord,deleteRecord,updateRecord} = recordSlice.actions;
+export const { addRecord, deleteRecord, updateRecord } = recordSlice.actions;
 
 export default store;

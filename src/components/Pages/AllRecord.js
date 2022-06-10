@@ -1,8 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchRecord } from '../store';
 import AddRecord from './AddRecord';
+import RecordList from './RecordList';
 
 const AllRecord = () => {
   const [showAddRecord, setShowAddRecord] = useState(false);
+  const dispatch = useDispatch();
+  const records = useSelector((state) => state.record.records);
+  console.log(records);
+
+  useEffect(() => {
+    dispatch(fetchRecord());
+  }, [dispatch]);
 
   return (
     <div className="pt-10">
@@ -22,33 +32,23 @@ const AllRecord = () => {
               <th></th>
               <th>Name</th>
               <th>Job</th>
-              <th>Favorite Color</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th>1</th>
-              <td>Cy Ganderton</td>
-              <td>Quality Control Specialist</td>
-              <td>Blue</td>
-            </tr>
-            <tr>
-              <th>2</th>
-              <td>Hart Hagerty</td>
-              <td>Desktop Support Technician</td>
-              <td>Purple</td>
-            </tr>
-            <tr>
-              <th>3</th>
-              <td>Brice Swyre</td>
-              <td>Tax Accountant</td>
-              <td>Red</td>
-            </tr>
+            {records.map((record, i) => (
+              <RecordList
+                key={record._id}
+                sl={i + 1}
+                taskName={record.taskName}
+                description={record.description}
+              />
+            ))}
           </tbody>
         </table>
       </div>
 
-      {showAddRecord && <AddRecord setShowAddRecord={setShowAddRecord}/>}
+      {showAddRecord && <AddRecord setShowAddRecord={setShowAddRecord} />}
     </div>
   );
 };
