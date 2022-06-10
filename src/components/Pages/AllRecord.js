@@ -2,13 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRecord } from '../store';
 import AddRecord from './AddRecord';
+import DeleteRecordModal from './DeleteRecordModal';
 import RecordList from './RecordList';
 
 const AllRecord = () => {
   const [showAddRecord, setShowAddRecord] = useState(false);
   const dispatch = useDispatch();
   const records = useSelector((state) => state.record.records);
-  console.log(records);
+  const [showModal, setShoeModal] = useState('');
+
+  const showModalHandler = (id) => {
+    setShoeModal(id);
+  };
 
   useEffect(() => {
     dispatch(fetchRecord());
@@ -40,8 +45,10 @@ const AllRecord = () => {
               <RecordList
                 key={record._id}
                 sl={i + 1}
+                id={record._id}
                 taskName={record.taskName}
                 description={record.description}
+                showModalHandler={showModalHandler}
               />
             ))}
           </tbody>
@@ -49,6 +56,7 @@ const AllRecord = () => {
       </div>
 
       {showAddRecord && <AddRecord setShowAddRecord={setShowAddRecord} />}
+      {showModal && <DeleteRecordModal showModal={showModal}/>}
     </div>
   );
 };

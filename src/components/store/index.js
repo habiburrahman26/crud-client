@@ -14,9 +14,13 @@ const recordSlice = createSlice({
     },
     addRecord(state, action) {
       console.log(action.payload);
-      state.records = [...state.records,action.payload];
+      state.records = [...state.records, action.payload];
     },
-    deleteRecord(state, action) {},
+    deleteRecord(state, action) {
+      const id = action.payload;
+      const filterRecord = state.records.filter((record) => record._id !== id);
+      state.records = filterRecord;
+    },
     updateRecord(state, action) {},
   },
 });
